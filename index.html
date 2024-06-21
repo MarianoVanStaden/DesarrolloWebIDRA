@@ -7,6 +7,7 @@
     <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
     <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
     <script src='script.js'> </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body>
@@ -26,16 +27,17 @@
         <tfoot>
             <tr>
                 <td></td>
-                <td><input id='dni' /></td>
-                <td><input id='lastName' /></td>
-                <td><input id='firstName' /></td>
-                <td><input id='email' /></td>
+                <td><input id='dni' onfocus="showInputInfo('dni')" /></td>
+                <td><input id='lastName' onfocus="showInputInfo('lastName')" /></td>
+                <td><input id='firstName' onfocus="showInputInfo('firstName')" /></td>
+                <td><input id='email' onfocus="showInputInfo('email')" /></td>
                 <td colspan='2' style='text-align: center'><button onclick='saveStudent()'>Add</button></td>
             </tr>
         </tfoot>
     </table>
 
     <div id='popUp'>
+        <h3>Actualizar registro</h3>
         <table>
             <tr>
                 <td><label for='id2' style='font-weight: bold'>Id</label></td>
