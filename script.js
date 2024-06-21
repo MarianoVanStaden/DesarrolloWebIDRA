@@ -216,6 +216,17 @@ function saveStudent() {
     const firstName = document.getElementById('firstName').value.trim();
     const email = document.getElementById('email').value.trim();
     
+    // Validación de caracteres especiales y números en nombre y apellido
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s']+$/;
+    if (!nameRegex.test(lastName) || !nameRegex.test(firstName)) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Advertencia!',
+            text: 'Los campos de nombre y apellido no deben contener caracteres especiales ni números.',
+        });
+        return;
+    }
+
     if (dni !== '' && lastName !== '' && firstName !== '' && email !== '') {
         if (isNaN(dni)) {
             Swal.fire({
@@ -249,6 +260,13 @@ function saveStudent() {
     }
 }
 
+// Función para validar formato de correo electrónico
+function isEmailValid(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+
 function viewStudent(student) {
     document.getElementsByName('id2')[0].value = student.id;
     document.getElementsByName('dni2')[0].value = student.dni;
@@ -273,6 +291,33 @@ function updateStudent() {
     const lastName = document.getElementsByName('lastName2')[0].value.trim();
     const firstName = document.getElementsByName('firstName2')[0].value.trim();
     const email = document.getElementsByName('email2')[0].value.trim();
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s']+$/;
+
+    let isValidLastName = nameRegex.test(lastName);
+    let isValidFirstName = nameRegex.test(firstName);
+
+    if (!isValidLastName && !isValidFirstName) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Advertencia!',
+            text: 'Los campos de nombre y apellido no deben contener caracteres especiales ni números.',
+        });
+        return;
+    } else if (!isValidLastName) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Advertencia!',
+            text: 'El campo de apellido no debe contener caracteres especiales ni números.',
+        });
+        return;
+    } else if (!isValidFirstName) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Advertencia!',
+            text: 'El campo de nombre no debe contener caracteres especiales ni números.',
+        });
+        return;
+    }
 
     if (dni !== '' && lastName !== '' && firstName !== '' && email !== '') {
         if (isNaN(dni)) {
@@ -307,3 +352,9 @@ function updateStudent() {
         });
     }
 }
+
+function isEmailValid(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+

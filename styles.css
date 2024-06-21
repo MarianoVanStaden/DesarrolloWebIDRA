@@ -3,7 +3,12 @@
 h1 {
     text-align: center;
     color: #000
-    
+}
+
+h3 {
+    text-align: center;
+    color: #000
+
 }
 
 body {
@@ -54,6 +59,18 @@ tfoot button:hover {
     background-color: #218838;
 }
 
+.autor {
+    text-align: right;
+    padding: 10px;
+    font-size: 14px;
+    font-style: italic;
+    color: #666; 
+}
+
+.autor a {
+    text-decoration: none; 
+    color: #333; 
+}
 #popUp {
     display: none;
     background-color: #fff;
@@ -92,5 +109,9 @@ tfoot button:hover {
 
 #popUp button:hover {
     background-color: #0069d9;
+}
+
+#labelIdUpdate {
+    background-color: rgba(0, 0, 0, 0.5); 
 }
 

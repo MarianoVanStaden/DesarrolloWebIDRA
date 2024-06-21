@@ -39,14 +39,20 @@
             </tr>
         </tfoot>
     </table>
+    <div class="autor text-right">
+        <a href="mailto:marianovanstaden@gmail.com" class="autor">@marianovanstaden</a>
+    </div>
 
     <div id='popUp'>
         <h3>Actualizar registro</h3>
         <table>
-            <tr>
-                <td><label for='id2' style='font-weight: bold'>Id</label></td>
+            <tr id="labelIdUpdate">
+                <td>
+                    <label for='id2' style='font-weight: bold; white-space: nowrap;'>Id <span style="font-size: xx-small">(no se cambia)</span></label>
+                </td>
                 <td><input name='id2' style='text-align: right' readonly /></td>
             </tr>
+            
             <tr>
                 <td><label for='dni2' style='font-weight: bold'>DNI</label></td>
                 <td><input name='dni2' style='text-align: right' /></td>
@@ -67,7 +73,6 @@
                 <td colspan='2' style='text-align: center'><button onclick='updateStudent()'>Update</button></td>
             </tr>
         </table>
-    </div>
 </body>
 
 </html>
