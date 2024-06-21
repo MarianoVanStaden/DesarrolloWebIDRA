@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TRABAJO DESARROLLO WEB IDRA</title>
+    <link rel='stylesheet' href='https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css'>
+    <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
+    <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
+    <script> src='DesarrolloWeb\script.js' </script>
+</head>
+
+<body>
+    <table style='border: 1px solid'>
+        <thead>
+            <tr>
+                <th style='text-align: left'>Id</th>
+                <th style='text-align: left'>Dni</th>
+                <th style='text-align: left'>Last Name</th>
+                <th style='text-align: left'>First Name</th>
+                <th style='text-align: left'>Email</th>
+                <th colspan='2'></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td><input id='dni' /></td>
+                <td><input id='lastName' /></td>
+                <td><input id='firstName' /></td>
+                <td><input id='email' /></td>
+                <td colspan='2' style='text-align: center'><button onclick='saveStudent()'>Add</button></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div id='popUp'>
+        <table>
+            <tr>
+                <td><label for='id2' style='font-weight: bold'>Id</label></td>
+                <td><input name='id2' style='text-align: right' readonly /></td>
+            </tr>
+            <tr>
+                <td><label for='dni2' style='font-weight: bold'>Dni</label></td>
+                <td><input name='dni2' style='text-align: right' /></td>
+            </tr>
+            <tr>
+                <td><label for='lastName2' style='font-weight: bold'>Last Name</label></td>
+                <td><input name='lastName2' style='text-align: right' /></td>
+            </tr>
+            <tr>
+                <td><label for='firstName2' style='font-weight: bold'>First Name</label></td>
+                <td><input name='firstName2' style='text-align: right' /></td>
+            </tr>
+            <tr>
+                <td><label for='email2' style='font-weight: bold'>Email</label></td>
+                <td><input name='email2' style='text-align: right' /></td>
+            </tr>
+            <tr>
+                <td colspan='2' style='text-align: center'><button onclick='updateStudent()'>Update</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
