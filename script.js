@@ -186,9 +186,10 @@ function getStudents() {
                 'email': e.email,
             });
             var view = row.insertCell();
-            view.innerHTML = `<button onclick='viewStudent(${student})'>Ver</button>`;
+            view.innerHTML = `<button class='button-primary' onclick='viewStudent(${student})'>Ver</button>`;
             var del = row.insertCell();
-            del.innerHTML = `<button onclick='deleteStudent(${e.id})'>Eliminar</button>`;
+            del.innerHTML = `<button class='button-danger' onclick='deleteStudent(${e.id})'>Eliminar</button>`;
+            
         });
         document.getElementById('dni').value = '';
         document.getElementById('lastName').value = '';
