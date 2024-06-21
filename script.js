@@ -205,11 +205,36 @@ function getStudents() {
     });
 }
 
+function isEmailValid(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
+    return re.test(email);
+}
+
 function saveStudent() {
-    if (document.getElementById('dni').value.trim() !== '' &&
-        document.getElementById('lastName').value.trim() !== '' &&
-        document.getElementById('firstName').value.trim() !== '' &&
-        document.getElementById('email').value.trim() !== '') {
+    const dni = document.getElementById('dni').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const firstName = document.getElementById('firstName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    
+    if (dni !== '' && lastName !== '' && firstName !== '' && email !== '') {
+        if (isNaN(dni)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Advertencia!',
+                text: 'El DNI debe contener solo números.',
+            });
+            return;
+        }
+
+        if (!isEmailValid(email)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Advertencia!',
+                text: 'El correo electrónico no tiene un formato válido.',
+            });
+            return;
+        }
+
         addStudent().then(() => {
             getStudents();
         }).catch(reason => {
@@ -244,10 +269,30 @@ function deleteStudent(id) {
 }
 
 function updateStudent() {
-    if (document.getElementsByName('dni2')[0].value.trim() !== '' &&
-        document.getElementsByName('lastName2')[0].value.trim() !== '' &&
-        document.getElementsByName('firstName2')[0].value.trim() !== '' &&
-        document.getElementsByName('email2')[0].value.trim() !== '') {
+    const dni = document.getElementsByName('dni2')[0].value.trim();
+    const lastName = document.getElementsByName('lastName2')[0].value.trim();
+    const firstName = document.getElementsByName('firstName2')[0].value.trim();
+    const email = document.getElementsByName('email2')[0].value.trim();
+
+    if (dni !== '' && lastName !== '' && firstName !== '' && email !== '') {
+        if (isNaN(dni)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Advertencia!',
+                text: 'El DNI debe contener solo números.',
+            });
+            return;
+        }
+
+        if (!isEmailValid(email)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Advertencia!',
+                text: 'El correo electrónico no tiene un formato válido.',
+            });
+            return;
+        }
+
         modifyStudent().then(() => {
             $('#popUp').dialog('close');
             getStudents();
