@@ -160,7 +160,7 @@ function modifyStudent() {
     });
 }
 
-// FUNCIONES QUE CONSUMEN LAS PROMESAS
+
 
 function getStudents() {
     loadStudents().then(response => {
@@ -260,7 +260,7 @@ function saveStudent() {
     }
 }
 
-// Función para validar formato de correo electrónico
+
 function isEmailValid(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
