@@ -1,4 +1,4 @@
-const url = 'https://19ee-181-230-219-190.ngrok.io/student'
+/*const url = 'https://19ee-181-230-219-190.ngrok.io/student'
 
         window.onload = function() {
             $('#popUp').hide()
@@ -190,3 +190,181 @@ const url = 'https://19ee-181-230-219-190.ngrok.io/student'
                 })
             }
         }
+            */
+        const url = 'https://19ee-181-230-219-190.ngrok.io/student';
+
+        $(document).ready(function() {
+            $('#popUp').hide();
+            getStudents();
+        });
+        
+        function loadStudents() {
+            return new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: url + '/getAll',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        resolve(response);
+                    },
+                    error: function(xhr, status, error) {
+                        reject(Error(status));
+                    }
+                });
+            });
+        }
+        
+        function addStudent() {
+            return new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        'dni': $('#dni').val(),
+                        'lastName': $('#lastName').val(),
+                        'firstName': $('#firstName').val(),
+                        'email': $('#email').val(),
+                        'cohort': '0',
+                        'status': 'activo',
+                        'gender': 'masculino',
+                        'address': 'abc123',
+                        'phone': '000'
+                    }),
+                    success: function(response) {
+                        resolve(response);
+                    },
+                    error: function(xhr, status, error) {
+                        reject(Error(status));
+                    }
+                });
+            });
+        }
+        
+        function removeStudent(id) {
+            return new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: url + `/${id}/delete`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    success: function(response) {
+                        resolve(response);
+                    },
+                    error: function(xhr, status, error) {
+                        reject(Error(status));
+                    }
+                });
+            });
+        }
+        
+        function modifyStudent() {
+            return new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: url + `/${$('input[name="id2"]').val()}/update`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        'dni': $('input[name="dni2"]').val(),
+                        'lastName': $('input[name="lastName2"]').val(),
+                        'firstName': $('input[name="firstName2"]').val(),
+                        'email': $('input[name="email2"]').val(),
+                        'cohort': '0',
+                        'status': 'activo',
+                        'gender': 'masculino',
+                        'address': 'abc123',
+                        'phone': '000'
+                    }),
+                    success: function(response) {
+                        resolve(response);
+                    },
+                    error: function(xhr, status, error) {
+                        reject(Error(status));
+                    }
+                });
+            });
+        }
+        
+        function getStudents() {
+            loadStudents().then(function(response) {
+                var tbody = $('tbody');
+                tbody.empty();
+                response.forEach(function(e) {
+                    var row = tbody[0].insertRow();
+                    var id = row.insertCell();
+                    id.innerHTML = e.id;
+                    var dni = row.insertCell();
+                    dni.innerHTML = e.dni;
+                    var lastName = row.insertCell();
+                    lastName.innerHTML = e.lastName;
+                    var firstName = row.insertCell();
+                    firstName.innerHTML = e.firstName;
+                    var email = row.insertCell();
+                    email.innerHTML = e.email;
+                    var student = JSON.stringify({
+                        'id': e.id,
+                        'dni': e.dni,
+                        'lastName': e.lastName,
+                        'firstName': e.firstName,
+                        'email': e.email,
+                    });
+                    var view = row.insertCell();
+                    view.innerHTML = `<button onclick='viewStudent(${student})'>View</button>`;
+                    var del = row.insertCell();
+                    del.innerHTML = `<button onclick='deleteStudent(${e.id})'>Delete</button>`;
+                });
+                $('#dni').val('');
+                $('#lastName').val('');
+                $('#firstName').val('');
+                $('#email').val('');
+                $('#dni').focus();
+            }).catch(function(reason) {
+                console.error(reason);
+            });
+        }
+        
+        function saveStudent() {
+            if ($('#dni').val().trim() !== '' &&
+                $('#lastName').val().trim() !== '' &&
+                $('#firstName').val().trim() !== '' &&
+                $('#email').val().trim() !== '') {
+                addStudent().then(function() {
+                    getStudents();
+                }).catch(function(reason) {
+                    console.error(reason);
+                });
+            }
+        }
+        
+        function viewStudent(student) {
+            $('input[name="id2"]').val(student.id);
+            $('input[name="dni2"]').val(student.dni);
+            $('input[name="lastName2"]').val(student.lastName);
+            $('input[name="firstName2"]').val(student.firstName);
+            $('input[name="email2"]').val(student.email);
+            $('#popUp').dialog({
+                closeText: ''
+            }).css('font-size', '15px');
+        }
+        
+        function deleteStudent(id) {
+            removeStudent(id).then(function() {
+                getStudents();
+            }).catch(function(reason) {
+                console.error(reason);
+            });
+        }
+        
+        function updateStudent() {
+            if ($('input[name="dni2"]').val().trim() !== '' &&
+                $('input[name="lastName2"]').val().trim() !== '' &&
+                $('input[name="firstName2"]').val().trim() !== '' &&
+                $('input[name="email2"]').val().trim() !== '') {
+                modifyStudent().then(function() {
+                    $('#popUp').dialog('close');
+                    getStudents();
+                }).catch(function(reason) {
+                    console.error(reason);
+                });
+            }
+        }
+        
