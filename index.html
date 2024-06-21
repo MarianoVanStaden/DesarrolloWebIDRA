@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TRABAJO DESARROLLO WEB IDRA</title>
+
+    <link rel='stylesheet' href='https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css'>
+    <link rel="stylesheet" href="styles.css">
+    <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
+    <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
+    <script src='script.js'> </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+</head>
+
+<body>
+    <h1>Trabajo Práctico Entregable - Desarrollo Web</h1>
+    <table style='border: 1px solid'>
+        <thead>
+            <tr>
+                <th style='text-align: left'>Id</th>
+                <th style='text-align: left'>DNI</th>
+                <th style='text-align: left'>Nombre</th>
+                <th style='text-align: left'>Apellido</th>
+                <th style='text-align: left'>Email</th>
+                <th colspan='2'></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td><input id='dni' onfocus="showInputInfo('dni')" placeholder="Ingrese su DNI"/></td>
+                <td><input id='lastName' onfocus="showInputInfo('lastName')" placeholder="Ingrese su Apellido"/></td>
+                <td><input id='firstName' onfocus="showInputInfo('firstName')" placeholder="Ingrese su Nombre" /></td>
+                <td><input id='email' onfocus="showInputInfo('email')" placeholder="Ingrese su Mail" /></td>
+                <td colspan='2' style='text-align: center'><button onclick='saveStudent()'>Agregar</button></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="autor text-right">
+        <a href="mailto:marianovanstaden@gmail.com" class="autor">@marianovanstaden</a>
+    </div>
+
+    <div id='popUp'>
+        <h3>Actualizar registro</h3>
+        <table>
+            <tr id="labelIdUpdate">
+                <td>
+                    <label for='id2' style='font-weight: bold; white-space: nowrap;'>Id <span style="font-size: xx-small">(no se cambia)</span></label>
+                </td>
+                <td><input name='id2' style='text-align: right' readonly /></td>
+            </tr>
+            
+            <tr>
+                <td><label for='dni2' style='font-weight: bold'>DNI</label></td>
+                <td><input name='dni2' style='text-align: right' /></td>
+            </tr>
+            <tr>
+                <td><label for='lastName2' style='font-weight: bold'>Apellido</label></td>
+                <td><input name='lastName2' style='text-align: right' /></td>
+            </tr>
+            <tr>
+                <td><label for='firstName2' style='font-weight: bold'>Nombre</label></td>
+                <td><input name='firstName2' style='text-align: right' /></td>
+            </tr>
+            <tr>
+                <td><label for='email2' style='font-weight: bold'>Email</label></td>
+                <td><input name='email2' style='text-align: right' /></td>
+            </tr>
+            <tr>
+                <td colspan='2' style='text-align: center'><button onclick='updateStudent()'>Update</button></td>
+            </tr>
+        </table>
+</body>
+
+</html>
