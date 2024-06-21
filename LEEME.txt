@@ -1,0 +1,43 @@
+Proyecto: TRABAJO DESARROLLO WEB IDRA
+
+Descripción del proyecto
+
+Este proyecto es una aplicación web para gestionar registros de estudiantes. Permite agregar, ver, actualizar y eliminar estudiantes desde una interfaz web interactiva.
+
+Estructura de archivos
+index.html: Página principal que muestra una tabla de estudiantes y un formulario para agregar nuevos estudiantes. También incluye un cuadro emergente para actualizar registros.
+
+styles.css: Archivo CSS que define el diseño y los estilos visuales de la aplicación.
+
+script.js: Archivo JavaScript que maneja la lógica de la aplicación, incluyendo la comunicación con el servidor y la validación de formularios.
+
+Componentes y funcionalidades principals
+
+Tabla de estudiantes: Muestra una lista de estudiantes con sus datos como Id, DNI, Nombre, Apellido y Email. Cada fila de la tabla tiene botones para ver detalles y eliminar el estudiante.
+
+Formulario de agregado: Permite ingresar los datos del estudiante (DNI, Apellido, Nombre y Email) y agregarlo a la tabla.
+
+Cuadro de actualización: Permite actualizar los datos de un estudiante seleccionado. Se muestra como un cuadro emergente cuando se hace clic en el botón "Actualizar".
+
+Tecnologías utilizadas
+
+HTML, CSS, JavaScript: Tecnologías estándar para el desarrollo web.
+
+jQuery: Librería JavaScript utilizada para simplificar el manejo de eventos y la manipulación del DOM.
+
+jQuery UI: Componentes de interfaz de usuario de jQuery, como el cuadro de diálogo utilizado para la actualización de registros.
+
+SweetAlert2: Librería para mostrar alertas personalizadas y modales.
+
+Guía de instalación y ejecución
+
+Clonar el repositorio: Clona el repositorio desde el siguiente enlace: https://github.com/MarianoVanStaden/DesarrolloWebIDRA
+
+Abrir el archivo index.html: Abre el archivo index.html en tu navegador web para iniciar la aplicación.
+
+Instrucciones adicionales
+Asegúrate de tener conexión a internet para cargar las librerías externas (jQuery, jQuery UI, SweetAlert2) desde los CDNs proporcionados.
+
+La aplicación utiliza validación de formularios para garantizar que los campos como DNI y Email tengan el formato correcto antes de enviarlos al servidor.
+
+Se recomienda mantener actualizadas las librerías y realizar pruebas de funcionamiento antes de desplegar en un entorno de producción.
