@@ -223,7 +223,7 @@ function saveStudent() {
         Swal.fire({
             icon: 'warning',
             title: 'Advertencia!',
-            text: 'Los campos de nombre y apellido no deben contener caracteres especiales ni números.',
+            text: 'Los campos de nombre y apellido no deben estar vacios o contener caracteres especiales ni números.',
         });
         return;
     }
@@ -301,7 +301,7 @@ function updateStudent() {
         Swal.fire({
             icon: 'warning',
             title: 'Advertencia!',
-            text: 'Los campos de nombre y apellido no deben contener caracteres especiales ni números.',
+            text: 'Los campos de nombre y apellido no deben estar vacios o contener caracteres especiales ni números.',
         });
         return;
     } else if (!isValidLastName) {
