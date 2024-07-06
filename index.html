@@ -19,10 +19,11 @@
         <thead>
             <tr>
                 <th style='text-align: left'>Id</th>
-                <th style='text-align: left'>DNI</th>
-                <th style='text-align: left'>Nombre</th>
-                <th style='text-align: left'>Apellido</th>
-                <th style='text-align: left'>Email</th>
+                <th style='text-align: left'>Name</th>
+                <th style='text-align: left'>Capacity</th>
+                <th style='text-align: left'>Screen Size</th>
+                <th style='text-align: left'>Generation</th>
+                <th style='text-align: left'>Price</th>
                 <th colspan='2'></th>
             </tr>
         </thead>
@@ -31,10 +32,11 @@
         <tfoot>
             <tr>
                 <td></td>
-                <td><input id='dni' onfocus="showInputInfo('dni')" placeholder="Ingrese su DNI"/></td>
-                <td><input id='lastName' onfocus="showInputInfo('lastName')" placeholder="Ingrese su Apellido"/></td>
-                <td><input id='firstName' onfocus="showInputInfo('firstName')" placeholder="Ingrese su Nombre" /></td>
-                <td><input id='email' onfocus="showInputInfo('email')" placeholder="Ingrese su Mail" /></td>
+                <td><input id='name' onfocus="showInputInfo('name')" placeholder="Ingrese el modelo"/></td>
+                <td><input id='capacity' onfocus="showInputInfo('capacity')" placeholder="Ingrese la capacidad"/></td>
+                <td><input id='screenSize' onfocus="showInputInfo('screenSize')" placeholder="Ingrese el tamaño de pantalla" /></td>
+                <td><input id='generation' onfocus="showInputInfo('generation')" placeholder="Ingrese la generación"></td>
+                <td><input id='price' onfocus="showInputInfo('price')" placeholder="Ingrese el precio"></td>
                 <td colspan='2' style='text-align: center'><button onclick='saveStudent()'>Agregar</button></td>
             </tr>
         </tfoot>
@@ -70,7 +72,7 @@
                 <td><input name='email2' style='text-align: right' /></td>
             </tr>
             <tr>
-                <td colspan='2' style='text-align: center'><button onclick='updateStudent()'>Update</button></td>
+                <td colspan='2' style='text-align: center'><button onclick='updateElement()'>Update</button></td>
             </tr>
         </table>
 </body>

@@ -1,14 +1,14 @@
-const url = 'https://backend-idra.onrender.com/student';
+const url = 'https://api.restful-api.dev/objects'; //'https://backend-idra.onrender.com/student';
 
 window.onload = function() {
     $('#popUp').hide();
-    getStudents();
+    getData();
 };
 
-function loadStudents() {
+function loadElement() {
     return new Promise(function(resolve, reject) {
         var request = new XMLHttpRequest();
-        request.open('GET', url + '/getAll');
+        request.open('GET', url);
         request.responseType = 'json';
         request.onload = function() {
             if (request.status == 200) {
@@ -73,7 +73,7 @@ function addStudent() {
     });
 }
 
-function removeStudent(id) {
+function removeElement(id) {
     return new Promise(function(resolve, reject) {
         var request = new XMLHttpRequest();
         request.open('POST', url + `/${id}/delete`);
@@ -111,7 +111,7 @@ function removeStudent(id) {
     });
 }
 
-function modifyStudent() {
+function modifyElement() {
     return new Promise(function(resolve, reject) {
         var request = new XMLHttpRequest();
         request.open('POST', url + `/${document.getElementsByName('id2')[0].value}/update`);
@@ -127,74 +127,49 @@ function modifyStudent() {
             'address': 'abc123',
             'phone': '000'
         });
-        request.onload = function() {
-            if (request.status == 200) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Estudiante actualizado!',
-                    text: 'El estudiante se ha actualizado correctamente.',
-                    timer: 2000,
-                    timerProgressBar: true,
-                    onClose: () => {
-                        resolve(request.response);
-                    }
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: 'No se pudo actualizar el estudiante.',
-                });
-                reject(Error(request.statusText));
-            }
-        };
-        request.onerror = function() {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: 'Error inesperado de red.',
-            });
-            reject(Error('Error: unexpected network error.'));
-        };
         request.send(student);
     });
 }
 
 
 
-function getStudents() {
-    loadStudents().then(response => {
+function getData() {
+    loadElement().then(response => {
         var tbody = document.querySelector('tbody');
         tbody.innerHTML = '';
         response.forEach(e => {
             var row = tbody.insertRow();
             var id = row.insertCell();
             id.innerHTML = e.id;
-            var dni = row.insertCell();
-            dni.innerHTML = e.dni;
-            var lastName = row.insertCell();
-            lastName.innerHTML = e.lastName;
-            var firstName = row.insertCell();
-            firstName.innerHTML = e.firstName;
-            var email = row.insertCell();
-            email.innerHTML = e.email;
+            var data = e.data || {};
+            var name = row.insertCell();
+            name.innerHTML = e.name;
+            var capacity = row.insertCell();
+            capacity.innerHTML = data.capacity  || '-';
+            var screenSize = row.insertCell();
+            screenSize.innerHTML = data.screenSize  || '-';
+            var generation = row.insertCell();
+            generation.innerHTML =  data.generation || data.Generation || '-';;
+            var price = row.insertCell();
+            price.innerHTML = data.price  || '-';
             var student = JSON.stringify({
                 'id': e.id,
-                'dni': e.dni,
-                'lastName': e.lastName,
-                'firstName': e.firstName,
-                'email': e.email,
+                'model': e.model ,
+                'capacity': e.capacity,
+                'screenSize': e.screenSize,
+                'generation': e.generation,
+                'price': e.price,
             });
             var view = row.insertCell();
-            view.innerHTML = `<button onclick='viewStudent(${student})'>Ver</button>`;
+            view.innerHTML = `<button onclick='viewElement(${student})'>Ver</button>`;
             var del = row.insertCell();
-            del.innerHTML = `<button onclick='deleteStudent(${e.id})'>Eliminar</button>`;
+            del.innerHTML = `<button onclick='deleteElement(${e.id})'>Eliminar</button>`;
         });
-        document.getElementById('dni').value = '';
-        document.getElementById('lastName').value = '';
-        document.getElementById('firstName').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('dni').focus();
+        document.getElementById('model').value = '';
+        document.getElementById('capacity').value = '';
+        document.getElementById('screenSize').value = '';
+        document.getElementById('generation').value = '';
+        document.getElementById('price').focus();
     }).catch(reason => {
         console.error(reason);
         Swal.fire({
@@ -205,10 +180,6 @@ function getStudents() {
     });
 }
 
-function isEmailValid(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
-    return re.test(email);
-}
 
 function saveStudent() {
     const dni = document.getElementById('dni').value.trim();
@@ -216,58 +187,11 @@ function saveStudent() {
     const firstName = document.getElementById('firstName').value.trim();
     const email = document.getElementById('email').value.trim();
     
-    // Validación de caracteres especiales y números en nombre y apellido
-    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s']+$/;
-    if (!nameRegex.test(lastName) || !nameRegex.test(firstName)) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Advertencia!',
-            text: 'Los campos de nombre y apellido no deben contener caracteres especiales ni números.',
-        });
-        return;
-    }
-
-    if (dni !== '' && lastName !== '' && firstName !== '' && email !== '') {
-        if (isNaN(dni)) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Advertencia!',
-                text: 'El DNI debe contener solo números.',
-            });
-            return;
-        }
-
-        if (!isEmailValid(email)) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Advertencia!',
-                text: 'El correo electrónico no tiene un formato válido.',
-            });
-            return;
-        }
-
-        addStudent().then(() => {
-            getStudents();
-        }).catch(reason => {
-            console.error(reason);
-        });
-    } else {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Advertencia!',
-            text: 'Por favor completa todos los campos.',
-        });
-    }
 }
 
 
-function isEmailValid(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
 
-
-function viewStudent(student) {
+function viewElement(student) {
     document.getElementsByName('id2')[0].value = student.id;
     document.getElementsByName('dni2')[0].value = student.dni;
     document.getElementsByName('lastName2')[0].value = student.lastName;
@@ -278,83 +202,19 @@ function viewStudent(student) {
     }).css('font-size', '15px');
 }
 
-function deleteStudent(id) {
-    removeStudent(id).then(() => {
-        getStudents();
+function deleteElement(id) {
+    removeElement(id).then(() => {
+        getData();
     }).catch(reason => {
         console.error(reason);
     });
 }
 
-function updateStudent() {
+function updateElement() {
     const dni = document.getElementsByName('dni2')[0].value.trim();
     const lastName = document.getElementsByName('lastName2')[0].value.trim();
     const firstName = document.getElementsByName('firstName2')[0].value.trim();
     const email = document.getElementsByName('email2')[0].value.trim();
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s']+$/;
 
-    let isValidLastName = nameRegex.test(lastName);
-    let isValidFirstName = nameRegex.test(firstName);
-
-    if (!isValidLastName && !isValidFirstName) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Advertencia!',
-            text: 'Los campos de nombre y apellido no deben contener caracteres especiales ni números.',
-        });
-        return;
-    } else if (!isValidLastName) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Advertencia!',
-            text: 'El campo de apellido no debe contener caracteres especiales ni números.',
-        });
-        return;
-    } else if (!isValidFirstName) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Advertencia!',
-            text: 'El campo de nombre no debe contener caracteres especiales ni números.',
-        });
-        return;
-    }
-
-    if (dni !== '' && lastName !== '' && firstName !== '' && email !== '') {
-        if (isNaN(dni)) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Advertencia!',
-                text: 'El DNI debe contener solo números.',
-            });
-            return;
-        }
-
-        if (!isEmailValid(email)) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Advertencia!',
-                text: 'El correo electrónico no tiene un formato válido.',
-            });
-            return;
-        }
-
-        modifyStudent().then(() => {
-            $('#popUp').dialog('close');
-            getStudents();
-        }).catch(reason => {
-            console.error(reason);
-        });
-    } else {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Advertencia!',
-            text: 'Por favor completa todos los campos.',
-        });
-    }
 }
-
-function isEmailValid(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
