@@ -1,8 +1,8 @@
-const url = 'https://api.restful-api.dev/objects'; //'https://backend-idra.onrender.com/student';
+const url = 'https://api.restful-api.dev/objects'; //'https://backend-idra.onrender.com/element';
 
 window.onload = function() {
     $('#popUp').hide();
-    getData();
+    getElement();
 };
 
 function loadElement() {
@@ -24,13 +24,13 @@ function loadElement() {
     });
 }
 
-function addStudent() {
+function addElement() {
     return new Promise(function(resolve, reject) {
         var request = new XMLHttpRequest();
         request.open('POST', url);
         request.setRequestHeader('Content-Type', 'application/json');
-        var student = JSON.stringify({
-            'dni': document.getElementById('dni').value,
+        var element = JSON.stringify({
+            'name': document.getElementById('name').value,
             'lastName': document.getElementById('lastName').value,
             'firstName': document.getElementById('firstName').value,
             'email': document.getElementById('email').value,
@@ -69,7 +69,7 @@ function addStudent() {
             });
             reject(Error('Error: unexpected network error.'));
         };
-        request.send(student);
+        request.send(element);
     });
 }
 
@@ -116,7 +116,7 @@ function modifyElement() {
         var request = new XMLHttpRequest();
         request.open('POST', url + `/${document.getElementsByName('id2')[0].value}/update`);
         request.setRequestHeader('Content-Type', 'application/json');
-        var student = JSON.stringify({
+        var element = JSON.stringify({
             'dni': document.getElementsByName('dni2')[0].value,
             'lastName': document.getElementsByName('lastName2')[0].value,
             'firstName': document.getElementsByName('firstName2')[0].value,
@@ -127,13 +127,13 @@ function modifyElement() {
             'address': 'abc123',
             'phone': '000'
         });
-        request.send(student);
+        request.send(element);
     });
 }
 
 
 
-function getData() {
+function getElement() {
     loadElement().then(response => {
         var tbody = document.querySelector('tbody');
         tbody.innerHTML = '';
@@ -152,23 +152,23 @@ function getData() {
             generation.innerHTML =  data.generation || data.Generation || '-';;
             var price = row.insertCell();
             price.innerHTML = data.price  || '-';
-            var student = JSON.stringify({
+            var element = JSON.stringify({
                 'id': e.id,
-                'model': e.model ,
+                'name': e.name ,
                 'capacity': e.capacity,
                 'screenSize': e.screenSize,
                 'generation': e.generation,
                 'price': e.price,
             });
             var view = row.insertCell();
-            view.innerHTML = `<button onclick='viewElement(${student})'>Ver</button>`;
+            view.innerHTML = `<button onclick='viewElement(${element})'>Ver</button>`;
             var del = row.insertCell();
             del.innerHTML = `<button onclick='deleteElement(${e.id})'>Eliminar</button>`;
         });
-        document.getElementById('model').value = '';
-        document.getElementById('capacity').value = '';
-        document.getElementById('screenSize').value = '';
-        document.getElementById('generation').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('capacity').value = '' || '-';
+        document.getElementById('screenSize').value = '' || '-';
+        document.getElementById('generation').value = '' || '-';
         document.getElementById('price').focus();
     }).catch(reason => {
         console.error(reason);
@@ -181,22 +181,24 @@ function getData() {
 }
 
 
-function saveStudent() {
-    const dni = document.getElementById('dni').value.trim();
-    const lastName = document.getElementById('lastName').value.trim();
-    const firstName = document.getElementById('firstName').value.trim();
-    const email = document.getElementById('email').value.trim();
+function saveElement() {
+    const name = document.getElementById('name').value.trim();
+    const capacity = document.getElementById('capacity').value.trim();
+    const screenSize = document.getElementById('screenSize').value.trim();
+    const generation = document.getElementById('generation').value.trim();
+    const price = document.getElementById('price').value.trim();
     
 }
 
 
 
-function viewElement(student) {
-    document.getElementsByName('id2')[0].value = student.id;
-    document.getElementsByName('dni2')[0].value = student.dni;
-    document.getElementsByName('lastName2')[0].value = student.lastName;
-    document.getElementsByName('firstName2')[0].value = student.firstName;
-    document.getElementsByName('email2')[0].value = student.email;
+function viewElement(element) {
+    document.getElementsByName('id2')[0].value = element.id ;
+    document.getElementsByName('name2')[0].value = element.name;
+    document.getElementsByName('capability2')[0].value = element.data.capacity;
+    document.getElementsByName('screenSize2')[0].value = element.data.screenSize;
+    document.getElementsByName('generation2')[0].value = element.generation;
+    document.getElementsByName('price2')[0].value = element.data.price;
     $('#popUp').dialog({
         closeText: ''
     }).css('font-size', '15px');
@@ -204,7 +206,7 @@ function viewElement(student) {
 
 function deleteElement(id) {
     removeElement(id).then(() => {
-        getData();
+        getElement();
     }).catch(reason => {
         console.error(reason);
     });
