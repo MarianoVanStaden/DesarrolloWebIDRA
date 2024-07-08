@@ -3,12 +3,11 @@
 
 <head>
     <title>TRABAJO DESARROLLO WEB IDRA</title>
-
     <link rel='stylesheet' href='https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css'>
     <link rel="stylesheet" href="styles.css">
     <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
     <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
-    <script src='script.js'></script>
+    <script src='script.js'> </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
@@ -31,11 +30,11 @@
         <tfoot>
             <tr>
                 <td></td>
-                <td><input id='name' placeholder="Ingrese el modelo" /></td>
-                <td><input id='capacity' placeholder="Ingrese la capacidad" /></td>
-                <td><input id='screenSize' placeholder="Ingrese el tamaño de pantalla" /></td>
-                <td><input id='generation' placeholder="Ingrese la generación"></td>
-                <td><input id='price' placeholder="Ingrese el precio"></td>
+                <td><input id='name' name='name' placeholder="Ingrese el modelo" /></td>
+                <td><input id='capacity' name='capacity' placeholder="Ingrese la capacidad" /></td>
+                <td><input id='screenSize' name='screenSize' placeholder="Ingrese el tamaño de pantalla" /></td>
+                <td><input id='generation' name='generation' placeholder="Ingrese la generación" /></td>
+                <td><input id='price' name='price' placeholder="Ingrese el precio" /></td>
                 <td colspan='2' style='text-align: center'><button onclick='saveElement()'>Agregar</button></td>
             </tr>
         </tfoot>
@@ -51,27 +50,27 @@
                 <td>
                     <label for='id2' style='font-weight: bold; white-space: nowrap;'>Id <span style="font-size: xx-small">(no se cambia)</span></label>
                 </td>
-                <td><input name='id2' style='text-align: right' readonly /></td>
+                <td><input id='id2' name='id2' style='text-align: right' readonly /></td>
             </tr>
             <tr>
                 <td><label for='name2' style='font-weight: bold'>Modelo</label></td>
-                <td><input name='name2' style='text-align: right' /></td>
+                <td><input id='name2' name='name2' style='text-align: right' /></td>
             </tr>
             <tr>
                 <td><label for='capacity2' style='font-weight: bold'>Capacidad</label></td>
-                <td><input name='capacity2' style='text-align: right' /></td>
+                <td><input id='capacity2' name='capacity2' style='text-align: right' /></td>
             </tr>
             <tr>
                 <td><label for='screenSize2' style='font-weight: bold'>Tamaño de Pantalla</label></td>
-                <td><input name='screenSize2' style='text-align: right' /></td>
+                <td><input id='screenSize2' name='screenSize2' style='text-align: right' /></td>
             </tr>
             <tr>
                 <td><label for='generation2' style='font-weight: bold'>Generación</label></td>
-                <td><input name='generation2' style='text-align: right' /></td>
+                <td><input id='generation2' name='generation2' style='text-align: right' /></td>
             </tr>
             <tr>
                 <td><label for='price2' style='font-weight: bold'>Precio</label></td>
-                <td><input name='price2' style='text-align: right' /></td>
+                <td><input id='price2' name='price2' style='text-align: right' /></td>
             </tr>
             <tr>
                 <td colspan='2' style='text-align: center'><button onclick='updateElement()'>Update</button></td>
