@@ -1,54 +1,43 @@
 const url = 'https://api.restful-api.dev/objects'; //'https://backend-idra.onrender.com/element';
 
-window.onload = function() {
+window.onload = function () {
     $('#popUp').hide();
     getElement();
 };
 
 function loadElement() {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest();
         request.open('GET', url);
         request.responseType = 'json';
-        request.onload = function() {
+        request.onload = function () {
             if (request.status == 200) {
                 resolve(request.response);
             } else {
                 reject(Error(request.statusText));
             }
         };
-        request.onerror = function() {
+        request.onerror = function () {
             reject(Error('Error: error inesperado de red.'));
         };
         request.send();
     });
 }
 
-function addElement() {
-    return new Promise(function(resolve, reject) {
+function addElement(element) {
+    return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest();
         request.open('POST', url);
         request.setRequestHeader('Content-Type', 'application/json');
-        var element = JSON.stringify({
-            'name': document.getElementById('name').value,
-            'lastName': document.getElementById('lastName').value,
-            'firstName': document.getElementById('firstName').value,
-            'email': document.getElementById('email').value,
-            'cohort': '0',
-            'status': 'activo',
-            'gender': 'masculino',
-            'address': 'abc123',
-            'phone': '000'
-        });
-        request.onload = function() {
-            if (request.status == 201) {
+        request.onload = function () {
+            if (request.status == 201 || request.status == 200) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Estudiante agregado!',
-                    text: 'El estudiante se ha agregado correctamente.',
+                    title: 'Elemento agregado!',
+                    text: 'El elemento se ha agregado correctamente.',
                     timer: 2000,
                     timerProgressBar: true,
-                    onClose: () => {
+                    willClose: () => {
                         resolve(request.response);
                     }
                 });
@@ -56,12 +45,12 @@ function addElement() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error!',
-                    text: 'No se pudo agregar el estudiante.',
+                    text: 'No se pudo agregar el elemento.',
                 });
                 reject(Error(request.statusText));
             }
         };
-        request.onerror = function() {
+        request.onerror = function () {
             Swal.fire({
                 icon: 'error',
                 title: 'Error!',
@@ -69,24 +58,25 @@ function addElement() {
             });
             reject(Error('Error: unexpected network error.'));
         };
-        request.send(element);
+        request.send(JSON.stringify(element));
     });
 }
 
+
 function removeElement(id) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest();
-        request.open('POST', url + `/${id}/delete`);
+        request.open('DELETE', url + `/${id}`);
         request.setRequestHeader('Content-Type', 'application/json');
-        request.onload = function() {
+        request.onload = function () {
             if (request.status == 200) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Estudiante eliminado!',
-                    text: 'El estudiante se ha eliminado correctamente.',
+                    title: 'Elemento eliminado!',
+                    text: 'El elemento se ha eliminado correctamente.',
                     timer: 2000,
                     timerProgressBar: true,
-                    onClose: () => {
+                    willClose: () => {
                         resolve(request.response);
                     }
                 });
@@ -94,12 +84,12 @@ function removeElement(id) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error!',
-                    text: 'No se pudo eliminar el estudiante.',
+                    text: 'No se pudo eliminar el elemento.',
                 });
                 reject(Error(request.statusText));
             }
         };
-        request.onerror = function() {
+        request.onerror = function () {
             Swal.fire({
                 icon: 'error',
                 title: 'Error!',
@@ -111,27 +101,43 @@ function removeElement(id) {
     });
 }
 
-function modifyElement() {
-    return new Promise(function(resolve, reject) {
+function modifyElement(id, element) {
+    return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest();
-        request.open('POST', url + `/${document.getElementsByName('id2')[0].value}/update`);
+        request.open('PUT', url + `/${id}`);
         request.setRequestHeader('Content-Type', 'application/json');
-        var element = JSON.stringify({
-            'dni': document.getElementsByName('dni2')[0].value,
-            'lastName': document.getElementsByName('lastName2')[0].value,
-            'firstName': document.getElementsByName('firstName2')[0].value,
-            'email': document.getElementsByName('email2')[0].value,
-            'cohort': '0',
-            'status': 'activo',
-            'gender': 'masculino',
-            'address': 'abc123',
-            'phone': '000'
-        });
-        request.send(element);
+        request.onload = function () {
+            if (request.status == 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Elemento actualizado!',
+                    text: 'El elemento se ha actualizado correctamente.',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        resolve(request.response);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'No se pudo actualizar el elemento.',
+                });
+                reject(Error(request.statusText));
+            }
+        };
+        request.onerror = function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Error inesperado de red.',
+            });
+            reject(Error('Error: unexpected network error.'));
+        };
+        request.send(JSON.stringify(element));
     });
 }
-
-
 
 function getElement() {
     loadElement().then(response => {
@@ -145,41 +151,33 @@ function getElement() {
             var name = row.insertCell();
             name.innerHTML = e.name;
             var capacity = row.insertCell();
-            capacity.innerHTML = data.capacity  || '-';
+            capacity.innerHTML = data.capacity || '-';
             var screenSize = row.insertCell();
-            screenSize.innerHTML = data.screenSize  || '-';
+            screenSize.innerHTML = data.screenSize || '-';
             var generation = row.insertCell();
-            generation.innerHTML =  data.generation || data.Generation || '-';;
+            generation.innerHTML = data.generation || data.Generation || '-';
             var price = row.insertCell();
-            price.innerHTML = data.price  || '-';
-            var element = JSON.stringify({
-                'id': e.id,
-                'name': e.name ,
-                'capacity': e.capacity,
-                'screenSize': e.screenSize,
-                'generation': e.generation,
-                'price': e.price,
-            });
+            price.innerHTML = data.price || '-';
             var view = row.insertCell();
-            view.innerHTML = `<button onclick='viewElement(${element})'>Ver</button>`;
+            view.innerHTML = `<button onclick='viewElement(${JSON.stringify(e)})'>Ver</button>`;
             var del = row.insertCell();
             del.innerHTML = `<button onclick='deleteElement(${e.id})'>Eliminar</button>`;
         });
         document.getElementById('name').value = '';
-        document.getElementById('capacity').value = '' || '-';
-        document.getElementById('screenSize').value = '' || '-';
-        document.getElementById('generation').value = '' || '-';
-        document.getElementById('price').focus();
+        document.getElementById('capacity').value = '';
+        document.getElementById('screenSize').value = '';
+        document.getElementById('generation').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('name').focus();
     }).catch(reason => {
         console.error(reason);
         Swal.fire({
             icon: 'error',
             title: 'Error!',
-            text: 'No se pudieron cargar los estudiantes.',
+            text: 'No se pudieron cargar los elementos.',
         });
     });
 }
-
 
 function saveElement() {
     const name = document.getElementById('name').value.trim();
@@ -187,17 +185,47 @@ function saveElement() {
     const screenSize = document.getElementById('screenSize').value.trim();
     const generation = document.getElementById('generation').value.trim();
     const price = document.getElementById('price').value.trim();
-    
+
+    // Ensure all fields are filled
+    if (name && capacity && screenSize && generation && price) {
+        const element = {
+            name,
+            data: {
+                capacity,
+                screenSize,
+                generation,
+                price
+            }
+        };
+        
+        addElement(element)
+            .then(() => {
+                getElement();
+            })
+            .catch(reason => {
+                console.error('Error adding element:', reason);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'No se pudo agregar el elemento. Verifique los datos e intente nuevamente.',
+                });
+            });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Por favor, complete todos los campos.',
+        });
+    }
 }
 
 
-
 function viewElement(element) {
-    document.getElementsByName('id2')[0].value = element.id ;
+    document.getElementsByName('id2')[0].value = element.id;
     document.getElementsByName('name2')[0].value = element.name;
-    document.getElementsByName('capability2')[0].value = element.data.capacity;
+    document.getElementsByName('capacity2')[0].value = element.data.capacity;
     document.getElementsByName('screenSize2')[0].value = element.data.screenSize;
-    document.getElementsByName('generation2')[0].value = element.generation;
+    document.getElementsByName('generation2')[0].value = element.data.generation;
     document.getElementsByName('price2')[0].value = element.data.price;
     $('#popUp').dialog({
         closeText: ''
@@ -213,10 +241,34 @@ function deleteElement(id) {
 }
 
 function updateElement() {
-    const dni = document.getElementsByName('dni2')[0].value.trim();
-    const lastName = document.getElementsByName('lastName2')[0].value.trim();
-    const firstName = document.getElementsByName('firstName2')[0].value.trim();
-    const email = document.getElementsByName('email2')[0].value.trim();
-    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s']+$/;
-
+    const id = document.getElementsByName('id2')[0].value;
+    const name = document.getElementsByName('name2')[0].value.trim();
+    const capacity = document.getElementsByName('capacity2')[0].value.trim();
+    const screenSize = document.getElementsByName('screenSize2')[0].value.trim();
+    const generation = document.getElementsByName('generation2')[0].value.trim();
+    const price = document.getElementsByName('price2')[0].value.trim();
+    
+    if (name && capacity && screenSize && generation && price) {
+        const element = {
+            name,
+            data: {
+                capacity,
+                screenSize,
+                generation,
+                price
+            }
+        };
+        modifyElement(id, element).then(() => {
+            getElement();
+            $('#popUp').dialog('close');
+        }).catch(reason => {
+            console.error(reason);
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Por favor, complete todos los campos.',
+        });
+    }
 }
