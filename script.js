@@ -199,8 +199,32 @@ function saveElement() {
         };
         
         addElement(element)
-            .then(() => {
-                getElement();
+            .then((response) => {
+                alert(response)
+                var tbody = document.querySelector('tbody');
+        
+        
+            var row = tbody.insertRow();
+            var id = row.insertCell();
+            var id3 = JSON.parse(response)
+            id.innerHTML = id3.id
+
+            var data = response.data || {};
+            var name = row.insertCell();
+            name.innerHTML = id3.name
+            //name.innerHTML = document.getElementById('name').value;
+            var capacity = row.insertCell();
+            capacity.innerHTML = document.getElementById('capacity').value || '-';
+            var screenSize = row.insertCell();
+            screenSize.innerHTML = document.getElementById('screenSize').value || '-';
+            var generation = row.insertCell();
+            generation.innerHTML = document.getElementById('generation').value || document.getElementById('Generation').value || '-';
+            var price = row.insertCell();
+            price.innerHTML = document.getElementById('price').value || '-';
+            var view = row.insertCell();
+            view.innerHTML = `<button onclick='viewElement(${JSON.stringify(response)})'>Ver</button>`;
+            var del = row.insertCell();
+            del.innerHTML = `<button onclick='deleteElement(${response.id})'>Eliminar</button>`;
             })
             .catch(reason => {
                 console.error('Error adding element:', reason);
