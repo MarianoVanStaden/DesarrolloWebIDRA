@@ -223,10 +223,10 @@ function saveElement() {
 function viewElement(element) {
     document.getElementsByName('id2')[0].value = element.id;
     document.getElementsByName('name2')[0].value = element.name;
-    document.getElementsByName('capacity2')[0].value = element.data.capacity;
-    document.getElementsByName('screenSize2')[0].value = element.data.screenSize;
-    document.getElementsByName('generation2')[0].value = element.data.generation;
-    document.getElementsByName('price2')[0].value = element.data.price;
+    document.getElementsByName('capacity2')[0].value = element.data.capacity ? element.data.capacity : '-'  ;
+    document.getElementsByName('screenSize2')[0].value = element.data.screenSize ? element.data.screenSize : '-';
+    document.getElementsByName('generation2')[0].value = element.data.generation ? element.data.generation : '-';
+    document.getElementsByName('price2')[0].value = element.data.price ? element.data.price : '-';
     $('#popUp').dialog({
         closeText: ''
     }).css('font-size', '15px');
