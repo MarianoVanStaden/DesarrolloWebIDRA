@@ -1,5 +1,5 @@
 //Author: Mariano Van Staden
-//Version: 2.14
+//Version: 2.4
 const url = 'https://api.restful-api.dev/objects'; //'https://backend-idra.onrender.com/element';
 
 window.onload = function () {
@@ -25,7 +25,7 @@ function loadElement() {
         request.send();
     });
 }
-/*
+
 function addElement(element) {
     return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest();
@@ -63,44 +63,7 @@ function addElement(element) {
         request.send(JSON.stringify(element));
     });
 }
-*/
-function addElement(element) {
-    return new Promise(function (resolve, reject) {
-        var request = new XMLHttpRequest();
-        request.open('POST', url);
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.onload = function () {
-            if (request.status == 201 || request.status == 200) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Elemento agregado!',
-                    text: 'El elemento se ha agregado correctamente.',
-                    timer: 2000,
-                    timerProgressBar: true,
-                    willClose: () => {
-                        resolve(request.response);
-                    }
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: 'No se pudo agregar el elemento.',
-                });
-                reject(Error(request.statusText));
-            }
-        };
-        request.onerror = function () {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: 'Error inesperado de red.',
-            });
-            reject(Error('Error inesperado de red.'));
-        };
-        request.send(JSON.stringify(element));
-    });
-}
+
 
 function removeElement(id) {
     return new Promise(function (resolve, reject) {
