@@ -243,18 +243,29 @@ function saveElement() {
     }
 }
 
-
 function viewElement(element) {
-    document.getElementsByName('id2')[0].value = element.id;
-    document.getElementsByName('name2')[0].value = element.name;
-    document.getElementsByName('capacity2')[0].value = element.data.capacity ? element.data.capacity : '-'  ;
-    document.getElementsByName('screenSize2')[0].value = element.data.screenSize ? element.data.screenSize : '-';
-    document.getElementsByName('generation2')[0].value = element.data.generation ? element.data.generation : '-';
-    document.getElementsByName('price2')[0].value = element.data.price ? element.data.price : '-';
-    $('#popUp').dialog({
-        closeText: ''
-    }).css('font-size', '15px');
+    console.log(element); // Debugging log to check the element
+    if (element && element.capacity) {
+        // Proceed with your code to handle the element
+        // For example, you can append the element data to your table
+        const tbody = document.querySelector('tbody');
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${element.id}</td>
+            <td>${element.name}</td>
+            <td>${element.capacity}</td>
+            <td>${element.screenSize}</td>
+            <td>${element.generation}</td>
+            <td>${element.price}</td>
+            <td><button onclick="editElement(${element.id})">Edit</button></td>
+            <td><button onclick="deleteElement(${element.id})">Delete</button></td>
+        `;
+        tbody.appendChild(row);
+    } else {
+        console.error('Element is undefined or missing the capacity property.');
+    }
 }
+
 
 function deleteElement(id) {
     removeElement(id).then(() => {
